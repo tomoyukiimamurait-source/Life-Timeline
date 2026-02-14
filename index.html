@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light" style=""><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人生年表（価値観・転機込み）</title>
+    <!-- Pico CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --primary-color: #3b82f6;
+        --valley-color: #ef4444;
+        --growth-color: #10b981;
+        --neutral-color: #64748b;
+        --bg-color: #f8fafc;
+      }
+
+      body {
+        font-family: 'Noto Sans JP', sans-serif;
+        background-color: var(--bg-color);
+        padding: 40px 20px;
+        color: #334155;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 60px;
+        color: #1e293b;
+        font-weight: 700;
+        border-bottom: 3px solid var(--primary-color);
+        display: inline-block;
+        padding-bottom: 10px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Timeline Structure */
+      .timeline {
+        position: relative;
+        padding-left: 40px;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: #cbd5e1;
+        border-radius: 2px;
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+      }
+
+      .timeline-marker {
+        position: absolute;
+        left: -33px; /* Adjust based on timeline padding */
+        top: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #fff;
+        border: 4px solid var(--neutral-color);
+        z-index: 1;
+      }
+
+      .timeline-content {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        border: 1px solid #e2e8f0;
+        position: relative;
+      }
+
+      .timeline-date {
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .timeline-title {
+        margin: 0 0 15px 0;
+        font-size: 1.4rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .timeline-body ul {
+        padding-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .timeline-body li {
+        margin-bottom: 6px;
+        line-height: 1.6;
+      }
+
+      /* Learning Box */
+      .learning-box {
+        background-color: #f1f5f9;
+        border-left: 4px solid #64748b;
+        padding: 15px;
+        border-radius: 0 4px 4px 0;
+      }
+
+      .learning-title {
+        font-weight: 700;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+        color: #475569;
+      }
+
+      .learning-content {
+        font-style: italic;
+        color: #334155;
+        margin: 0;
+      }
+
+      /* Specific Styles for Types */
+      /* Valley (Trouble/Challenge) */
+      .type-valley .timeline-marker {
+        border-color: var(--valley-color);
+      }
+      .type-valley .timeline-date {
+        color: var(--valley-color);
+      }
+      .type-valley .timeline-content {
+        border-top: 4px solid var(--valley-color);
+      }
+      .type-valley .learning-box {
+        border-left-color: var(--valley-color);
+        background-color: #fef2f2;
+      }
+      .type-valley .learning-title {
+        color: var(--valley-color);
+      }
+
+      /* Growth/Expansion */
+      .type-growth .timeline-marker {
+        border-color: var(--growth-color);
+      }
+      .type-growth .timeline-date {
+        color: var(--growth-color);
+      }
+      .type-growth .timeline-content {
+        border-top: 4px solid var(--growth-color);
+      }
+      .type-growth .learning-box {
+        border-left-color: var(--growth-color);
+        background-color: #ecfdf5;
+      }
+      .type-growth .learning-title {
+        color: var(--growth-color);
+      }
+
+      /* Pivot/Major Change */
+      .type-pivot .timeline-marker {
+        border-color: var(--primary-color);
+      }
+      .type-pivot .timeline-date {
+        color: var(--primary-color);
+      }
+      .type-pivot .timeline-content {
+        border-top: 4px solid var(--primary-color);
+      }
+      .type-pivot .learning-box {
+        border-left-color: var(--primary-color);
+        background-color: #eff6ff;
+      }
+      .type-pivot .learning-title {
+        color: var(--primary-color);
+      }
+
+      /* Normal */
+      .type-normal .timeline-marker {
+        border-color: var(--neutral-color);
+      }
+      .type-normal .timeline-date {
+        color: var(--neutral-color);
+      }
+      .type-normal .timeline-content {
+        border-top: 4px solid var(--neutral-color);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 600px) {
+        body {
+          padding: 20px 10px;
+        }
+        .timeline {
+          padding-left: 30px;
+        }
+        .timeline::before {
+          left: 10px;
+        }
+        .timeline-marker {
+          left: -28px;
+          width: 16px;
+          height: 16px;
+          border-width: 3px;
+        }
+        .timeline-title {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Open%20Sans:wght@400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Google%20Sans:wght@400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto%20Sans%20JP:wght@400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;display=swap" rel="stylesheet"></head>
+  <body style=""><h1>人生年表</h1><span style="color: rgb(30, 41, 59); font-family: system-ui, -apple-system, &quot;Segoe UI&quot;, Roboto, Ubuntu, Cantarell, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 11px; font-weight: 700; text-align: center;">&nbsp;</span><div><p><span style="color: rgb(0, 0, 0); line-height: 1;">佐々木様お世話になっております。</span></p><p><font color="#000000">株式会社SORAの今村です。</font></p><p style="line-height: 1;"><span style="color: rgb(0, 0, 0); line-height: 1;">今までを振り返りながら人生年表をまとめさせていただきました。</span></p><p style="line-height: 1;"><span style="color: rgb(0, 0, 0); line-height: 1;">お手隙の際にご確認いただけますと幸いです。</span></p><p style="line-height: 1;"><span style="color: rgb(0, 0, 0); line-height: 1;">よろしくお願いいたします。</span></p><p><br></p><div class="timeline">
+      <!-- Period 1: Childhood -->
+      <div class="timeline-item type-normal">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">幼少期 〜 高校</span>
+          <h3 class="timeline-title"><i class="fas fa-seedling"></i> 原体験と基礎形成</h3>
+          <div class="timeline-body">
+            <ul>
+              <li><strong>生い立ち:</strong> 神奈川県平塚市生まれ、伊勢原育ち</li>
+              <li>
+                <strong>家庭環境:</strong>
+                父（鍼灸師・自営業）、母（専業主婦）。自営業家庭で「自分で稼ぐ」「責任を持つ」姿を間近で見て育つ
+              </li>
+              <li>
+                <strong>活動:</strong> 小学生〜高校までサッカーを継続。高校1年までジャニーズにも所属し、学業と活動を両立
+              </li>
+              <li><strong>建築への関心:</strong>&nbsp;昔から寺社仏閣や木造建築に強い興味を持ち、進路相談担当の先生と繋がりがあった木造建築に知見が深い教授を紹介されたことから、その教授のいる大学へ進学を決意</li>
+            </ul>
+            <div class="learning-box">
+              <span class="learning-title"><i class="fas fa-lightbulb"></i> 学んだ価値観</span>
+              <p class="learning-content">継続力・負荷耐性・両立思考</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period 2: University 1st Year (Valley) -->
+      <div class="timeline-item type-valley">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">大学1年 〜 人生の一つ目の谷</span>
+          <h3 class="timeline-title"><i class="fas fa-chart-line-down"></i> 経済的危機と投資への挑戦</h3>
+          <div class="timeline-body">
+            <ul>
+              <li>父の経営悪化に伴い、<strong>年間160万円の学費を自費で払う</strong>と決断</li>
+              <li>資金調達のため貯金とアルバイト代を元手に株式デイトレード・為替取引を開始</li>
+              <li>開始2週間で資金の半分を失う挫折を経験</li>
+            </ul>
+            <div class="learning-box">
+              <span class="learning-title"><i class="fas fa-exclamation-triangle"></i> 痛烈な学び</span>
+              <p class="learning-content">
+                感覚では勝てない。本気で勉強しなければ生き残れない。リスクと向き合う覚悟を決める。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period 3: University 2-3 (Growth) -->
+      <div class="timeline-item type-growth">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">大学1 〜 3年</span>
+          <h3 class="timeline-title"><i class="fas fa-robot"></i> 仕組み化による突破</h3>
+          <div class="timeline-body">
+            <ul>
+              <li>株式デイトレードで安定して収益を埋めるようになり、学費の7割をトレード報酬で支払い、残りをアルバイトで補填</li>
+              <li>為替取引(豪ドル/円)のトレードも始め、安定収益化に成功し、海外口座での高レバレッジ(200倍)取引を実践</li>
+              <li>自分の売買基準を言語化し、自動売買ツール（EA）を開発(関数などを使って簡単な<meta charset="utf-8"><span style="
+    color: rgb(65, 84, 98);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    orphans: 2;
+    text-align: start;
+    text-indent: 0px;
+    text-transform: none;
+    widows: 2;
+    word-spacing: 0px;
+    -webkit-text-stroke-width: 0px;
+    white-space: normal;
+    background-color: rgb(255, 255, 255);
+    text-decoration-thickness: initial;
+    text-decoration-style: initial;
+    text-decoration-color: initial;
+    display: inline !important;
+    float: none;
+  ">プログラミングを学習</span>)</li>
+              <li>EA(自動売買ツール)無料配布からIB報酬(ユーザーがEAツール使用時に手数料がもらえる)モデルに取り組み収益化成功</li><li>自分がトレードするモデルから手数料モデル<meta charset="utf-8"><span style="
+    color: rgb(65, 84, 98);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    orphans: 2;
+    text-align: start;
+    text-indent: 0px;
+    text-transform: none;
+    widows: 2;
+    word-spacing: 0px;
+    -webkit-text-stroke-width: 0px;
+    white-space: normal;
+    background-color: rgb(255, 255, 255);
+    text-decoration-thickness: initial;
+    text-decoration-style: initial;
+    text-decoration-color: initial;
+    display: inline !important;
+    float: none;
+  ">(リスク0)</span>
+に転向しEAの改修と制作に時間を使う</li>
+            </ul>
+            <div class="learning-box">
+              <span class="learning-title"><i class="fas fa-check-circle"></i> 獲得した価値観</span>
+              <p class="learning-content">再現性は作れる。勝ち続けるには構造化が必要。個人でも仕組みを持てば戦える。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period 4: Job Hunting (Valley 2) -->
+      <div class="timeline-item type-valley">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">大学2年 〜 就活（人生の二つ目の谷）</span>
+          <h3 class="timeline-title"><i class="fas fa-user-tie"></i> 就職活動での葛藤と決断</h3>
+          <div class="timeline-body">
+            <ul>
+              <li>大手ハウスメーカー・ゼネコンから内々定を獲得</li><li>卒論が一区切りついたタイミングで就職前準備(内々定先で行っている業務ベースの調査)を始める</li>
+              <li>自ら内々定先企業に実務見学を依頼し、先輩社員と対話を実施(仕事終わりに飲みに連れて行ってもらった)</li>
+              <li>その先輩は「新卒入社8年経っても自分の考えを反映できない」「他の転職先を探しているけど同業でしか選択肢がない」という新卒入社した本人の声に直面し、<strong>内定を辞退(ゼネコンも同じ内容だったので辞退)</strong></li>
+              <li>安定を捨てる不安や周囲との温度差(両親の反対)に葛藤する</li>
+            </ul>
+            <div class="learning-box">
+              <span class="learning-title"><i class="fas fa-balance-scale"></i> 重要な意思決定</span>
+              <p class="learning-content">納得できない選択はしたくない思いが強かった。経験は少ないものの自分の考える基準で意思決定がしたい。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period 5: Pivot to IT -->
+      <div class="timeline-item type-pivot">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">大学4年6月 〜 転機</span>
+          <h3 class="timeline-title"><i class="fas fa-laptop-code"></i> IT業界への転換</h3>
+          <div class="timeline-body">
+            <ul>
+              <li>EAで軽くプログラミングをしたこともあり、建築業界から方向転換し価値提供の対象者が広い<meta charset="utf-8"><span style="
+    color: rgb(65, 84, 98);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    orphans: 2;
+    text-align: start;
+    text-indent: 0px;
+    text-transform: none;
+    widows: 2;
+    word-spacing: 0px;
+    -webkit-text-stroke-width: 0px;
+    white-space: normal;
+    background-color: rgb(255, 255, 255);
+    text-decoration-thickness: initial;
+    text-decoration-style: initial;
+    text-decoration-color: initial;
+    display: inline !important;
+    float: none;
+  ">IT業界</span>
+を希望</li>
+              <li>大手はIR情報で分析、中小は説明会に参加（卒業までに決まらなければトレーダー継続も視野）</li>
+              <li>前田さんの説明会で思考・経営スタイルにびっくりしたとともに再現性と体制に興味が湧き、選考に参加し入社を決意</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period 6: After Joining -->
+      <div class="timeline-item type-normal">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">入社後 〜 現在</span>
+          <h3 class="timeline-title"><i class="fas fa-briefcase"></i> 実務経験と役割の拡大(入社後の躓き)</h3>
+          <div class="timeline-body">
+            <ul>
+              <li>関係構築ができていない会社メンバーとリモート勤務で仕事を進めることに躓いたが、メンバーの懐の広さに救われ自分から話せるようになる</li><li><strong>開発フェーズ:</strong>&nbsp;バックエンド(見た目ではわからない<meta charset="utf-8"><span style="
+    color: rgb(65, 84, 98);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    orphans: 2;
+    text-align: start;
+    text-indent: 0px;
+    text-transform: none;
+    widows: 2;
+    word-spacing: 0px;
+    -webkit-text-stroke-width: 0px;
+    white-space: normal;
+    background-color: rgb(255, 255, 255);
+    text-decoration-thickness: initial;
+    text-decoration-style: initial;
+    text-decoration-color: initial;
+    display: inline !important;
+    float: none;
+  ">情報処理)</span>
+領域のプログラミング、テスト業務を通じて品質・ロジック・仕様理解を習得</li>
+              <li><strong>現在:</strong> 新卒採用、アウトバウンド営業を担当</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period 7: Current Expansion -->
+      <div class="timeline-item type-growth">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">1年前 〜 現在（第三の拡張）</span>
+          <h3 class="timeline-title"><i class="fas fa-rocket"></i> マーケティングをSORAへ還元</h3>
+          <div class="timeline-body">
+            <ul>
+              <li>個人でWebマーケティングを開始（流入計測設計、SNS運用(コンセプト設計〜meta広告)、LP改善(作成〜ヒートマップ分析による導線の変更)、サイト分析(GA4やサーチコンソル、<meta charset="utf-8">Tag Manager )</li>
+              <li>個人の知見を組織の「仕組み」として落とし込むため、まとめ中(現状手が回っていない)</li>
+            </ul>
+            <div class="learning-box">
+              <span class="learning-title"><i class="fas fa-infinity"></i> 統合された学び</span>
+              <p class="learning-content">以前やっていたトレードもマーケも本質は同じ。数字で判断する、再現性を持たせる、そして仕組み化する。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+</div></body></html>
